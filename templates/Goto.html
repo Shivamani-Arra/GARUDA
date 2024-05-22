@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{url_for('static',filename='bootstrap/css/bootstrap-grid.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- flight indicators-->
+    <link type="text/css" href="{{url_for('static',filename='flight-indicators/css/flightindicators.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='flight-indicators/jquery/jquery-3.7.1.js')}}"></script>
+    <script src="{{url_for('static',filename='flight-indicators/js/jquery.flightindicators.js')}}"></script>
+
+    <script src="{{url_for('static',filename='socket.io-4.7.2/client-dist/socket.io.js')}}"></script>
+
+    <link href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet">
+    <script type='text/javascript' src="{{url_for('static',filename='script/script.js')}}"></script>
+    <script type='text/javascript' src="{{url_for('static',filename='script/jquery.gauge.js')}}"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        background-color: grey;
+      }
+
+      header {
+        background-color: #333;
+        padding: 4px;
+        text-align: center;
+        background-color: #192939;
+      }
+
+      h2 {
+        color: grey;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-around;
+        background-color: #060613;
+        padding: 10px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      #left-section,
+      #right-section {
+        flex: 1;
+        padding: 20px;
+        width: 50%;
+        height: 470px;
+        box-sizing: border-box;
+        justify-content: center;
+        text-align: center;
+        background-color: #ddd;
+        border-radius: 10px;
+      }
+
+      #left-controls,
+      #center-controls,
+      #right-controls {
+        flex: 1;
+        padding: 5px;
+        width: 30%;
+        height: 30px;
+        box-sizing: border-box;
+        justify-content: center;
+        text-align: center;
+        background-color: grey;
+        border-radius: 10px;
+      }
+
+      #map {
+        height: 400px;
+        width: 100%;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #ddd;
+      }
+
+      #input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      label {
+        background-color: #ddd;
+      }
+
+      #left-controls input {
+        width: 50%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      #right-controls input {
+        width: 50%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      span {
+        display: flex;
+        justify-content: space-around;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 15px;
+        gap: 10px;
+      }
+
+
+      #left-controls button{
+        padding: 10px 20px;
+        font-size: 18px;
+        width: 25%;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        margin-bottom: 10px;
+      }
+      #center-controls button {
+        padding: 10px 10px;
+        font-size: 18px;
+        width: 40%;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        margin-bottom: 10px;
+      }
+      #right-controls button {
+        padding: 10px 20px;
+        font-size: 16px;
+        width: 25%;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        margin-bottom: 10px;
+      }
+
+      #left-controls button:hover,
+
+      #right-controls button:hover {
+        background-color: orange;
+      }
+    </style>
+  </head>
+
+  <body onload="getData()">
+    <header>
+      <h3 style="color: whitesmoke;">MAP TRACKING AND ALTITUDE CHECK</h3>
+    </header>
+    <nav>
+      <a href="/main1">Main</a>
+      <a href="https://192.168.2.145:3000/" target="_blank">Video</a>
+      <a href="/">Disconnect</a>
+    </nav>
+    </section id="input-container">
+    <main class="container-fluid mt-4">
+      <div class = "drones row">
+        <div class = "drone1 col-sm-1 col-md-2">
+          <h3 class="droneheading">Altitude Comparision</h3>
+          <div class="remote">
+              <div>
+                  <span id="altimeter1"></span>
+                  <p id="altitude1_dis" style="font-weight:500">Altitude</p>
+              </div>
+              <div>
+                <span id="altimeter2"></span>
+                <p id="altitude2_dis" style="font-weight:500">Altitude</p>
+            </div>
+              
+          </div>
+        </div>
+        <div class = "drone2 col-sm-1 col-md-2">
+          <h3 class="droneheading">Compass Comparision</h3>
+          <div class="distant">
+              <div>
+                <span id="heading1"></span>
+                <p id="heading1_dis" style="font-weight:500">YAW</p>
+              </div>
+              <div>
+                  <span id="heading2"></span>
+                  <p id="heading2_dis" style="font-weight:500">YAW</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </main>
+      <span>
+        <section id="left-controls">
+          <form action="" method="post">
+            <section id="input-container">
+              <input
+                type="number"
+                id="altitude"
+                name="alt"
+                placeholder="Enter Altitude"
+                required
+              />
+              
+            </section>
+            <section id="sectionbutton"><button type="submit" class="btn btn-primary" onClick="GoTo(event)">GoTo</button></section>
+          </form>
+          </section>
+          <section id="center-controls">
+            <form action="" method="post">
+              <section id="sectionbutton"><button type="submit"  class="btn btn-primary" onClick="Land()">Land</button></section>
+
+              </form>
+          </section>
+          <section>
+            <form action="" method="post">
+                <section id="sectionbutton"><button type="submit"  class="btn btn-primary" onClick="RTL()">Return To Home</button></section>
+            </form>
+          </section>
+          <section id="right-controls">
+            <form method="GET" action="/change_yaw">
+              <section id="input-container">
+                <input id="yaw" name="heading" placeholder="enter angle" required />
+              </section>
+              <section id="sectionbutton"><button type="submit"  class="btn btn-primary" onClick="chageyaw(event)">Yaw</button></section>
+            </form>
+          </section>
+      </span>
+  </section>
+  </body>
+</html>

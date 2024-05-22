@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drone Control Center</title>
+  <style>
+    .image-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 330px;
+    }
+
+    img {
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    img:hover {
+      transform: scale(1.1);
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: grey;
+    }
+
+    header {
+      background-color: #192939;
+      color: #ecf0f1;
+      padding: 5px;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    header h1 {
+      color: grey;
+    }
+
+    header a {
+      text-decoration: none;
+    }
+
+    nav {
+      background-color: #060613;
+      padding: 10px;
+      text-align: center;
+      display: flex;
+      justify-content: space-around;
+      text-decoration: none;
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 5px 5px;
+      margin: 0 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      text-decoration: none;
+      background-color: #2c3e50;
+    }
+
+    figure {
+      text-align: center;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    section {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1,
+    h2 {
+      color: #060613;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+
+
+    .popup-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .timer {
+      color: red;
+    }
+
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+      <h1>Drone Server Centre</h1>
+  </header>
+
+  <nav>
+    <a href="http://192.168.137.44:5000/">HOME</a>
+    <!-- <a href="http://127.0.0.1:5500/drone.html">Tracking and Controls</a>
+    <a href="Connections.html">Connections</a>
+    <a href="videos.html">Video</a> -->
+    <form action = "http://192.168.2.102:5500/connect" method = "post">
+      
+    <!-- re<form action = "http://172.168.4.189:5500/connect" method = "post">  -->
+      <a><button type = "submit" onclick="startTimer()" id="showPopupBtn">Connect</button></a>
+   </form>
+  </nav>
+
+  <main>
+    <h2>About</h2>
+    <p>
+      Welcome to the Drone Server Center, where innovation meets precision.
+      Our mission is to redefine the possibilities of drone technology and
+      revolutionize the way we interact with unmanned aerial vehicles (UAVs).
+    </p>
+
+    <p>
+      At the core of our vision is a commitment to pushing the boundaries of
+      drone capabilities through cutting-edge peer-to-peer communication,
+      advanced flight control systems, and real-time data analytics.
+    </p>
+    <h2>Key Features :</h2>
+    <ul>
+      <li>
+        <h3>Dronetastic Connectivity</h3>
+        <p>
+          Ever wondered what two drones might talk about? Neither have we, but
+          we're making it happen! At KMIT, we're on a mission to create the
+          coolest thing since sliced bread: video conferencing between drones.
+          Yeah, you heard it right!
+        </p>
+      </li>
+
+      <li>
+        <h3>No Internet? No Problem:</h3>
+        <p>
+          Forget Wi-Fi or cellular networks; our drones have their own secret
+          language. No internet needed—because who needs it when your drones
+          are BFFs?
+        </p>
+      </li>
+      <li>
+        <h3>Real-time Chit-Chat:</h3>
+        <p>
+          Picture this: your drones, gossiping in the air. Our project lets
+          them have real-time video conferences. They'll be sharing bird's-eye
+          views and high-altitude banter.
+        </p>
+      </li>
+      <li>
+        <h3>Security is Lit:</h3>
+        <p>
+          We're not messing around. Our coding ninjas have made sure the whole
+          drone convo is encrypted and as secure as a cat guarding a tuna
+          stash.
+        </p>
+      </li>
+      <li>
+        <h3>Advanced Control:</h3>
+        Take full command of your drone with our intuitive and responsive
+        control interface.
+      </li>
+      <li>
+        <h3>Real-time Analytics:</h3>
+        Access live data feeds, including altitude, speed etc for informed
+        decision-making during flights.
+      </li>
+      <li>
+        <h3>Peer-to-Peer Communication:</h3>
+        Connect with other drone enthusiasts, share experiences, and
+        participate in a thriving community.
+      </li>
+      <li>
+        <h3>Flight Planning:</h3>
+        Plan and execute precise flight paths with our easy-to-use planning
+        tools.
+      </li>
+    </ul>
+    <div class="image-container">
+      <figure>
+        <img src="static/flight-indicators/img/drone.jpg" alt="DRONE" width="50%" height="50%" />
+        <br /><br />
+        <figcaption>Real Time Drone Application</figcaption>
+      </figure>
+    </div>
+  </main>
+  <div class="popup" id="myPopup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <p>Connecting in : <span class="timer" id="countdown"></span></p>
+      <!-- <span class="timer" onclick=""></span> -->
+    </div>
+  </div>
+  </main>
+  <script>
+    document.getElementById('showPopupBtn').addEventListener('click', function () {
+      document.getElementById('myPopup').style.display = 'block';
+      startTimer(30);
+    });
+    function startTimer(duration) {
+      var timer = duration;
+      setInterval(function () {
+        document.getElementById('countdown').textContent = timer;
+        if (--timer < 0) {
+          closePopup();
+        }
+      }, 1000);
+    }
+    function closePopup() {
+      document.getElementById('myPopup').style.display = 'none';
+    }
+  </script>
+
+  <footer>&copy; 2023 Drone Control Systems</footer>
+</body>
+
+</html>

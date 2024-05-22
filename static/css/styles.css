@@ -1,0 +1,125 @@
+body{
+    background-color: #7a7c7d;
+    margin:0px;
+}
+.heading{
+    text-align: center;
+    font-weight: 900;
+    color:#c2e2fd;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: normal;
+    margin-top: 8px;
+}
+
+.top-box{
+    margin:0% 1%;
+    border:3px solid #cc6622;
+    border-radius: 5px;
+    height:100%;
+    width:98%;
+    padding:10px;
+}
+.drones{
+    display:flex;
+    justify-content: center;
+}
+.drone1,.drone2{
+    width:49%;
+    margin-left:10px;
+}
+.remote,.distant{
+    display:flex;
+    justify-content: space-evenly;
+    border-radius: 2px;
+}
+.speedtest,.drone1,.drone2{
+    /* background-color: #c2e2fd;
+     */
+     background-color: whitesmoke;
+    border-radius:10px;
+    margin: 5px;
+}
+.droneheading{
+    text-align: center;
+}
+.speedtest{
+    display : flex;
+    justify-content: space-evenly;
+    margin-left:10px;
+}
+.speedtest_p{
+    border:3px solid #000000;
+}
+
+
+/* bottom left displays*/
+.bottom-box{
+    margin:1%;
+    display:flex;
+    justify-content: space-evenly;
+}
+label,input{
+    display:block;
+    margin:0%;
+}
+.drone-controls{
+    border:4px solid #000000;
+    background-color:#10e078 ;
+    padding:2%;
+    text-align: center;
+    
+}
+#takeoff_btn{
+    margin:auto;
+    padding:0%;
+}
+
+
+/* Gauge Meter*/
+.GaugeMeter {
+position: Relative;
+text-align: Center;
+overflow: Hidden;
+cursor: Default;
+}
+
+.GaugeMeter SPAN,
+.GaugeMeter B {
+margin: 0 23%;
+width: 54%;
+position: Absolute;
+text-align: Center;
+display: Inline-Block;
+color: RGBa(0, 0, 0, 0.8);
+font-weight: 100;
+font-family: 'Open Sans', Arial;
+overflow: Hidden;
+white-space: NoWrap;
+text-overflow: Ellipsis;
+}
+.GaugeMeter[data-style='Semi'] B {
+margin: 0 10%;
+width: 80%;
+}
+
+.GaugeMeter S,
+.GaugeMeter U {
+text-decoration: None;
+font-size: 0.6em;
+font-weight: 200;
+opacity: 0.6;
+}
+
+.GaugeMeter B {
+color: Black;
+font-weight: 200;
+font-size: 0.85em;
+opacity: 0.8;
+}
+
+
+DIV.GaugeMeter {
+float: Left;
+}
+
+

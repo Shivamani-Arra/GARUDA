@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <!-- This page style -->
+    <!-- <link rel="stylesheet" type="text/css" href="_examples_data/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/flightindicators.css" /> -->
+    <link href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+
+    <!-- flight indicators-->
+    <link type="text/css" href="{{url_for('static',filename='flight-indicators/css/flightindicators.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='flight-indicators/jquery/jquery-3.7.1.js')}}"></script>
+    <script src="{{url_for('static',filename='flight-indicators/js/jquery.flightindicators.js')}}"></script>
+
+
+    <script src="{{url_for('static',filename='socket.io-4.7.2/client-dist/socket.io.js')}}"></script>
+
+    <link href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet">
+    <script type='text/javascript' src="{{url_for('static',filename='script/script.js')}}"></script>
+    <script type='text/javascript' src="{{url_for('static',filename='script/jquery.gauge.js')}}"></script>
+
+    <title>Flight Indicators jQuery Plugin Examples</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: grey;
+      }
+
+      header {
+        background-color: #192939;
+        color: #ecf0f1;
+        padding: 1px;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      header h3 {
+        color: grey;
+      }
+
+      nav {
+        background-color: #060613;
+        /* padding: 10px; */
+        text-align: center;
+        display: flex;
+        justify-content: space-around;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+
+      nav a {
+        color: #ecf0f1;
+        text-decoration: none;
+        padding: 5px 5px;
+        margin: 0 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      nav a:hover {
+        text-decoration: none;
+        background-color: #2c3e50;
+      }
+
+      h1, h4 {
+        color: #060613;
+        text-decoration: none;
+      }
+      .container-fluid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-around;
+      }
+      footer {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        text-align: center;
+        padding: 5px;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+    </style>
+</head>
+<body onload="getData()">
+    <header>
+      <h1>Drone Server Centre</h1>
+    </header>
+
+    <nav>
+        <a href="/main1">HOME</a>
+        <a href="https://172.168.0.46:3000/" target="_blank">Video</a>
+        <a href="/">Disconnect</a>
+    </nav>
+    <div class="container mt-4">
+      <div class = "drones row">
+        <div class = "drone1 col-sm-1 col-md-2">
+            <h3 class="droneheading">Altitude Comparision</h3>
+            <div class="remote">
+                <div>
+                    <span id="altimeter1"></span>
+                    <p id="altitude1_dis" style="font-weight:500">Altitude</p>
+                </div>
+                <div>
+                  <span id="altimeter2"></span>
+                  <p id="altitude2_dis" style="font-weight:500">Altitude</p>
+              </div>
+                
+            </div>
+        </div>
+        <div class = "drone2 col-sm-1 col-md-2">
+            <h3 class="droneheading">Compass Comparision</h3>
+            <div class="distant">
+                <div>
+                  <span id="heading1"></span>
+                  <p id="heading1_dis" style="font-weight:500">YAW</p>
+                </div>
+                <div>
+                    <span id="heading2"></span>
+                    <p id="heading2_dis" style="font-weight:500">YAW</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="bottom-box">
+      <div class ="speedtest_p" style = "background-color: #D5DEE1; margin : 5px;">
+          <h4 style="color:#000000; text-align:center; font-weight:500" class="mt-2 mb-0">Speed Test</h4>
+      <div class = "speedtest">
+          <div>
+              <canvas id="demo1" width="200" height="200" ></canvas>
+              <p id="Uploadspeed" style="text-align:center;font-weight:500">Upload Speed : </p>
+          </div>
+          <div>
+              <canvas id="demo2" width="200" height="200" ></canvas>
+              <p id="Downloadspeed" style="text-align:center;font-weight:500">Download Speed : </p>
+          </div>
+      </div>
+      <center><button type="button" class="btn btn-primary" style = "margin : 7px; font-weight :500;" onClick="speedtest()">Run Speed Test</button></center>
+  </div>
+    <footer>&copy; 2023 Drone Control Systems</footer>
+    
+</body>
+</html>

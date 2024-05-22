@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{url_for('static',filename='bootstrap/css/bootstrap-grid.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- flight indicators-->
+    <link type="text/css" href="{{url_for('static',filename='flight-indicators/css/flightindicators.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='flight-indicators/jquery/jquery-3.7.1.js')}}"></script>
+    <script src="{{url_for('static',filename='flight-indicators/js/jquery.flightindicators.js')}}"></script>
+
+    <script src="{{url_for('static',filename='socket.io-4.7.2/client-dist/socket.io.js')}}"></script>
+
+    <link href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet">
+    <script type='text/javascript' src="{{url_for('static',filename='script/script.js')}}"></script>
+    <script type='text/javascript' src="{{url_for('static',filename='script/jquery.gauge.js')}}"></script>
+    <title>Drone Control Center</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: grey;
+      }
+
+      header {
+        background-color: #192939;
+        color: #ecf0f1;
+        padding: 1px;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      header h3 {
+        color: grey;
+      }
+
+      nav {
+        background-color: #060613;
+        /* padding: 10px; */
+        text-align: center;
+        display: flex;
+        justify-content: space-around;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+
+      nav a {
+        color: #ecf0f1;
+        text-decoration: none;
+        padding: 5px 5px;
+        margin: 0 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      nav a:hover {
+        text-decoration: none;
+        background-color: #2c3e50;
+      }
+
+      h1, h4 {
+        color: #060613;
+        text-decoration: none;
+      }
+      .container-fluid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-around;
+      }
+      footer {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        text-align: center;
+        padding: 5px;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+      section {
+        max-width:300px; 
+        margin: 20px auto; /* Center the section horizontally */
+        padding: 20px;
+        background-color: #c9c9c9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      section button {
+        align-items: center;
+        padding: 2px 3px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        margin-top: 10px; /* Add margin at the top */
+      }
+
+      section button:hover {
+        background-color: #001a01;
+      }
+
+      section label,
+      section input {
+        border: 1px solid #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h3 class="display-4" style="color: whitesmoke;">Take Off Page</h3>
+    </header>
+
+    <nav>
+      <a href="/main">Main</a>
+      <a href="https://172.168.2.5:3000/" target="_blank">Video</a>
+      <a href="/">Disconnect</a>
+    </nav>
+
+      <section>
+        <h3>Enter Altitude:</h3>
+        <form action="" method="post">
+          <input
+            type="number"
+            id="altitude"
+            name="alt"
+            placeholder="Enter Altitude"
+            required
+          />
+          <button class="btn btn-primary" type="submit" onClick="takeOff(event)">Take Off</button>
+        </form>
+      </section>
+      
+    <main class="container mt-4">
+      <!-- <div class="container-fluid altimeter-box">
+        <div class="col-sm-3">
+          <h4>Altimeter 1</h4>
+          <span id="altimeter1"></span><br>
+          <input id="altRemote1" placeholder="Altitude 1" value="{{ alt1 }}" class="form-control" readonly>
+        </div>
+        <div class="col-sm-3">
+          <h4>Altimeter 2</h4>
+          <span id="altimeter2"></span><br>
+          <input id="altRemote2" placeholder="Altitude 2" value="{{ alt2 }}" class="form-control" readonly>
+        </div>
+      </div>
+
+      <div class="container-fluid heading-box">
+        <div class="col-sm-3">
+          <h4>Heading 1</h4>
+          <span id="heading1"></span><br>
+          <input id="dirRemote1" placeholder="Direction 1" value="{{ dir1 }}" class="form-control" readonly>
+        </div>
+        <div class="col-sm-3">
+          <h4>Heading 2</h4>
+          <span id="heading2"></span><br>
+          <input id="dirRemote2" placeholder="Direction 2" value="{{ dir2 }}" class="form-control" readonly>
+        </div>
+      </div> -->
+        <div class = "drones row">
+            <div class = "drone1 col-sm-1 col-md-2">
+                <h3 class="droneheading">Altitude Comparision</h3>
+                <div class="remote">
+                    <div>
+                        <span id="altimeter1"></span>
+                        <p id="altitude1_dis" style="font-weight:500">Altitude</p>
+                    </div>
+                    <div>
+                      <span id="altimeter2"></span>
+                      <p id="altitude2_dis" style="font-weight:500">Altitude</p>
+                  </div>
+                    
+                </div>
+            </div>
+            <div class = "drone2 col-sm-1 col-md-2">
+                <h3 class="droneheading">Compass Comparision</h3>
+                <div class="distant">
+                    <div>
+                      <span id="heading1"></span>
+                      <p id="heading1_dis" style="font-weight:500">YAW</p>
+                    </div>
+                    <div>
+                        <span id="heading2"></span>
+                        <p id="heading2_dis" style="font-weight:500">YAW</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <span>&copy; 2023 Drone Control Systems</span>
+    </footer>
+  </body>
+</html>
